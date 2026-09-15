@@ -12,9 +12,14 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AhmedTiziriRouteImport } from './routes/ahmed-tiziri'
 import { Route as AtelierRouteImport } from './routes/atelier'
+import { Route as CheckoutRouteImport } from './routes/checkout'
+import { Route as ConditionsRouteImport } from './routes/conditions'
+import { Route as ConfidentialiteRouteImport } from './routes/confidentialite'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CreationsRouteImport } from './routes/creations'
+import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
 import { Route as OurikaRouteImport } from './routes/ourika'
+import { Route as PanierRouteImport } from './routes/panier'
 import { Route as CreationsSlugRouteImport } from './routes/creations.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -32,6 +37,21 @@ const AtelierRoute = AtelierRouteImport.update({
   path: '/atelier',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckoutRoute = CheckoutRouteImport.update({
+  id: '/checkout',
+  path: '/checkout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConditionsRoute = ConditionsRouteImport.update({
+  id: '/conditions',
+  path: '/conditions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConfidentialiteRoute = ConfidentialiteRouteImport.update({
+  id: '/confidentialite',
+  path: '/confidentialite',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
@@ -42,9 +62,19 @@ const CreationsRoute = CreationsRouteImport.update({
   path: '/creations',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MentionsLegalesRoute = MentionsLegalesRouteImport.update({
+  id: '/mentions-legales',
+  path: '/mentions-legales',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OurikaRoute = OurikaRouteImport.update({
   id: '/ourika',
   path: '/ourika',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PanierRoute = PanierRouteImport.update({
+  id: '/panier',
+  path: '/panier',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CreationsSlugRoute = CreationsSlugRouteImport.update({
@@ -57,18 +87,28 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ahmed-tiziri': typeof AhmedTiziriRoute
   '/atelier': typeof AtelierRoute
+  '/checkout': typeof CheckoutRoute
+  '/conditions': typeof ConditionsRoute
+  '/confidentialite': typeof ConfidentialiteRoute
   '/contact': typeof ContactRoute
   '/creations': typeof CreationsRouteWithChildren
+  '/mentions-legales': typeof MentionsLegalesRoute
   '/ourika': typeof OurikaRoute
+  '/panier': typeof PanierRoute
   '/creations/$slug': typeof CreationsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ahmed-tiziri': typeof AhmedTiziriRoute
   '/atelier': typeof AtelierRoute
+  '/checkout': typeof CheckoutRoute
+  '/conditions': typeof ConditionsRoute
+  '/confidentialite': typeof ConfidentialiteRoute
   '/contact': typeof ContactRoute
   '/creations': typeof CreationsRouteWithChildren
+  '/mentions-legales': typeof MentionsLegalesRoute
   '/ourika': typeof OurikaRoute
+  '/panier': typeof PanierRoute
   '/creations/$slug': typeof CreationsSlugRoute
 }
 export interface FileRoutesById {
@@ -76,9 +116,14 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/ahmed-tiziri': typeof AhmedTiziriRoute
   '/atelier': typeof AtelierRoute
+  '/checkout': typeof CheckoutRoute
+  '/conditions': typeof ConditionsRoute
+  '/confidentialite': typeof ConfidentialiteRoute
   '/contact': typeof ContactRoute
   '/creations': typeof CreationsRouteWithChildren
+  '/mentions-legales': typeof MentionsLegalesRoute
   '/ourika': typeof OurikaRoute
+  '/panier': typeof PanierRoute
   '/creations/$slug': typeof CreationsSlugRoute
 }
 export interface FileRouteTypes {
@@ -87,27 +132,42 @@ export interface FileRouteTypes {
     | '/'
     | '/ahmed-tiziri'
     | '/atelier'
+    | '/checkout'
+    | '/conditions'
+    | '/confidentialite'
     | '/contact'
     | '/creations'
+    | '/mentions-legales'
     | '/ourika'
+    | '/panier'
     | '/creations/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/ahmed-tiziri'
     | '/atelier'
+    | '/checkout'
+    | '/conditions'
+    | '/confidentialite'
     | '/contact'
     | '/creations'
+    | '/mentions-legales'
     | '/ourika'
+    | '/panier'
     | '/creations/$slug'
   id:
     | '__root__'
     | '/'
     | '/ahmed-tiziri'
     | '/atelier'
+    | '/checkout'
+    | '/conditions'
+    | '/confidentialite'
     | '/contact'
     | '/creations'
+    | '/mentions-legales'
     | '/ourika'
+    | '/panier'
     | '/creations/$slug'
   fileRoutesById: FileRoutesById
 }
@@ -115,9 +175,14 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AhmedTiziriRoute: typeof AhmedTiziriRoute
   AtelierRoute: typeof AtelierRoute
+  CheckoutRoute: typeof CheckoutRoute
+  ConditionsRoute: typeof ConditionsRoute
+  ConfidentialiteRoute: typeof ConfidentialiteRoute
   ContactRoute: typeof ContactRoute
   CreationsRoute: typeof CreationsRouteWithChildren
+  MentionsLegalesRoute: typeof MentionsLegalesRoute
   OurikaRoute: typeof OurikaRoute
+  PanierRoute: typeof PanierRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -143,6 +208,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AtelierRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/conditions': {
+      id: '/conditions'
+      path: '/conditions'
+      fullPath: '/conditions'
+      preLoaderRoute: typeof ConditionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/confidentialite': {
+      id: '/confidentialite'
+      path: '/confidentialite'
+      fullPath: '/confidentialite'
+      preLoaderRoute: typeof ConfidentialiteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -157,11 +243,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CreationsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mentions-legales': {
+      id: '/mentions-legales'
+      path: '/mentions-legales'
+      fullPath: '/mentions-legales'
+      preLoaderRoute: typeof MentionsLegalesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ourika': {
       id: '/ourika'
       path: '/ourika'
       fullPath: '/ourika'
       preLoaderRoute: typeof OurikaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/panier': {
+      id: '/panier'
+      path: '/panier'
+      fullPath: '/panier'
+      preLoaderRoute: typeof PanierRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/creations/$slug': {
@@ -190,9 +290,14 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AhmedTiziriRoute: AhmedTiziriRoute,
   AtelierRoute: AtelierRoute,
+  CheckoutRoute: CheckoutRoute,
+  ConditionsRoute: ConditionsRoute,
+  ConfidentialiteRoute: ConfidentialiteRoute,
   ContactRoute: ContactRoute,
   CreationsRoute: CreationsRouteWithChildren,
+  MentionsLegalesRoute: MentionsLegalesRoute,
   OurikaRoute: OurikaRoute,
+  PanierRoute: PanierRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
