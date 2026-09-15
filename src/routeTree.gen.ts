@@ -20,6 +20,7 @@ import { Route as CreationsRouteImport } from './routes/creations'
 import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
 import { Route as OurikaRouteImport } from './routes/ourika'
 import { Route as PanierRouteImport } from './routes/panier'
+import { Route as CreationsIndexRouteImport } from './routes/creations.index'
 import { Route as CreationsSlugRouteImport } from './routes/creations.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -77,6 +78,11 @@ const PanierRoute = PanierRouteImport.update({
   path: '/panier',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CreationsIndexRoute = CreationsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CreationsRoute,
+} as any)
 const CreationsSlugRoute = CreationsSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
@@ -96,6 +102,7 @@ export interface FileRoutesByFullPath {
   '/ourika': typeof OurikaRoute
   '/panier': typeof PanierRoute
   '/creations/$slug': typeof CreationsSlugRoute
+  '/creations/': typeof CreationsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -105,11 +112,11 @@ export interface FileRoutesByTo {
   '/conditions': typeof ConditionsRoute
   '/confidentialite': typeof ConfidentialiteRoute
   '/contact': typeof ContactRoute
-  '/creations': typeof CreationsRouteWithChildren
   '/mentions-legales': typeof MentionsLegalesRoute
   '/ourika': typeof OurikaRoute
   '/panier': typeof PanierRoute
   '/creations/$slug': typeof CreationsSlugRoute
+  '/creations': typeof CreationsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -125,6 +132,7 @@ export interface FileRoutesById {
   '/ourika': typeof OurikaRoute
   '/panier': typeof PanierRoute
   '/creations/$slug': typeof CreationsSlugRoute
+  '/creations/': typeof CreationsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -141,6 +149,7 @@ export interface FileRouteTypes {
     | '/ourika'
     | '/panier'
     | '/creations/$slug'
+    | '/creations/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -150,11 +159,11 @@ export interface FileRouteTypes {
     | '/conditions'
     | '/confidentialite'
     | '/contact'
-    | '/creations'
     | '/mentions-legales'
     | '/ourika'
     | '/panier'
     | '/creations/$slug'
+    | '/creations'
   id:
     | '__root__'
     | '/'
@@ -169,6 +178,7 @@ export interface FileRouteTypes {
     | '/ourika'
     | '/panier'
     | '/creations/$slug'
+    | '/creations/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -264,6 +274,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PanierRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/creations/': {
+      id: '/creations/'
+      path: '/'
+      fullPath: '/creations/'
+      preLoaderRoute: typeof CreationsIndexRouteImport
+      parentRoute: typeof CreationsRoute
+    }
     '/creations/$slug': {
       id: '/creations/$slug'
       path: '/$slug'
@@ -276,10 +293,12 @@ declare module '@tanstack/react-router' {
 
 interface CreationsRouteChildren {
   CreationsSlugRoute: typeof CreationsSlugRoute
+  CreationsIndexRoute: typeof CreationsIndexRoute
 }
 
 const CreationsRouteChildren: CreationsRouteChildren = {
   CreationsSlugRoute: CreationsSlugRoute,
+  CreationsIndexRoute: CreationsIndexRoute,
 }
 
 const CreationsRouteWithChildren = CreationsRoute._addFileChildren(
