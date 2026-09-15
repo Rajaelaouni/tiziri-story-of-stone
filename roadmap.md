@@ -4,4 +4,4 @@
 - [x] Creations and product detail
 - [x] Ourika, Atelier, Ahmed, Contact
 - [x] Cart, checkout, legal pages
-- [ ] Responsive and interaction validation
+- [x] Responsive and interaction validation
