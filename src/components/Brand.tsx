@@ -1,0 +1,2 @@
+import { Link } from "@tanstack/react-router";
+export function Brand({light=false}:{light?:boolean}){return <Link to="/" className={`block text-center leading-none ${light?"text-hero-foreground":"text-foreground"}`} aria-label="Tiziri, accueil"><span className="block font-serif text-[1.7rem] tracking-[.28em]">TIZIRI</span><span className="mt-1 block text-[.53rem] tracking-[.08em]">Créations d’Ahmed Tiziri</span></Link>}
