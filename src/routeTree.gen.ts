@@ -10,7 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AhmedTiziriRouteImport } from './routes/ahmed-tiziri'
+import { Route as AtelierRouteImport } from './routes/atelier'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CreationsRouteImport } from './routes/creations'
+import { Route as OurikaRouteImport } from './routes/ourika'
 import { Route as CreationsSlugRouteImport } from './routes/creations.$slug'
 
 const IndexRoute = IndexRouteImport.update({
@@ -18,9 +22,29 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AhmedTiziriRoute = AhmedTiziriRouteImport.update({
+  id: '/ahmed-tiziri',
+  path: '/ahmed-tiziri',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AtelierRoute = AtelierRouteImport.update({
+  id: '/atelier',
+  path: '/atelier',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CreationsRoute = CreationsRouteImport.update({
   id: '/creations',
   path: '/creations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OurikaRoute = OurikaRouteImport.update({
+  id: '/ourika',
+  path: '/ourika',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CreationsSlugRoute = CreationsSlugRouteImport.update({
@@ -31,31 +55,69 @@ const CreationsSlugRoute = CreationsSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/ahmed-tiziri': typeof AhmedTiziriRoute
+  '/atelier': typeof AtelierRoute
+  '/contact': typeof ContactRoute
   '/creations': typeof CreationsRouteWithChildren
+  '/ourika': typeof OurikaRoute
   '/creations/$slug': typeof CreationsSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/ahmed-tiziri': typeof AhmedTiziriRoute
+  '/atelier': typeof AtelierRoute
+  '/contact': typeof ContactRoute
   '/creations': typeof CreationsRouteWithChildren
+  '/ourika': typeof OurikaRoute
   '/creations/$slug': typeof CreationsSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/ahmed-tiziri': typeof AhmedTiziriRoute
+  '/atelier': typeof AtelierRoute
+  '/contact': typeof ContactRoute
   '/creations': typeof CreationsRouteWithChildren
+  '/ourika': typeof OurikaRoute
   '/creations/$slug': typeof CreationsSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/creations' | '/creations/$slug'
+  fullPaths:
+    | '/'
+    | '/ahmed-tiziri'
+    | '/atelier'
+    | '/contact'
+    | '/creations'
+    | '/ourika'
+    | '/creations/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/creations' | '/creations/$slug'
-  id: '__root__' | '/' | '/creations' | '/creations/$slug'
+  to:
+    | '/'
+    | '/ahmed-tiziri'
+    | '/atelier'
+    | '/contact'
+    | '/creations'
+    | '/ourika'
+    | '/creations/$slug'
+  id:
+    | '__root__'
+    | '/'
+    | '/ahmed-tiziri'
+    | '/atelier'
+    | '/contact'
+    | '/creations'
+    | '/ourika'
+    | '/creations/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AhmedTiziriRoute: typeof AhmedTiziriRoute
+  AtelierRoute: typeof AtelierRoute
+  ContactRoute: typeof ContactRoute
   CreationsRoute: typeof CreationsRouteWithChildren
+  OurikaRoute: typeof OurikaRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -67,11 +129,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/ahmed-tiziri': {
+      id: '/ahmed-tiziri'
+      path: '/ahmed-tiziri'
+      fullPath: '/ahmed-tiziri'
+      preLoaderRoute: typeof AhmedTiziriRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/atelier': {
+      id: '/atelier'
+      path: '/atelier'
+      fullPath: '/atelier'
+      preLoaderRoute: typeof AtelierRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/creations': {
       id: '/creations'
       path: '/creations'
       fullPath: '/creations'
       preLoaderRoute: typeof CreationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ourika': {
+      id: '/ourika'
+      path: '/ourika'
+      fullPath: '/ourika'
+      preLoaderRoute: typeof OurikaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/creations/$slug': {
@@ -98,7 +188,11 @@ const CreationsRouteWithChildren = CreationsRoute._addFileChildren(
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AhmedTiziriRoute: AhmedTiziriRoute,
+  AtelierRoute: AtelierRoute,
+  ContactRoute: ContactRoute,
   CreationsRoute: CreationsRouteWithChildren,
+  OurikaRoute: OurikaRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
