@@ -13,23 +13,26 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { CartProvider } from "@/context/CartContext";
 import { Header, Footer } from "@/components/SiteChrome";
+import { Button } from "@/components/ui/button";
+import { I18nProvider, useI18n } from "@/lib/i18n";
 
 function NotFoundComponent() {
+  const { t } = useI18n();
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
+    <div className="flex min-h-screen items-center justify-center bg-background px-6 pt-24">
+      <div className="max-w-lg text-center">
+        <p className="eyebrow text-clay">{t("Erreur 404", "خطأ 404")}</p>
+        <h1 className="display-title mt-5 text-6xl md:text-7xl">{t("Chemin perdu", "طريق ضائع")}</h1>
+        <p className="mt-6 font-serif text-2xl italic">
+          {t("Même dans la vallée, certains sentiers ne mènent nulle part.", "حتى في الوادي، بعض الدروب لا تؤدي إلى أي مكان.")}
         </p>
-        <div className="mt-6">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Go home
-          </Link>
+        <div className="mt-10 flex flex-wrap justify-center gap-4">
+          <Button asChild variant="luxury">
+            <Link to="/">{t("Retour à l’accueil", "العودة إلى الرئيسية")}</Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link to="/creations">{t("Les créations", "الإبداعات")}</Link>
+          </Button>
         </div>
       </div>
     </div>
@@ -44,30 +47,25 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   }, [error]);
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-xl font-semibold tracking-tight text-foreground">
-          This page didn't load
-        </h1>
-        <p className="mt-2 text-sm text-muted-foreground">
-          Something went wrong on our end. You can try refreshing or head back home.
+    <div className="flex min-h-screen items-center justify-center bg-background px-6">
+      <div className="max-w-lg text-center">
+        <h1 className="display-title text-5xl">Un instant</h1>
+        <p className="mt-5 font-serif text-2xl italic">
+          Cette page n’a pas pu s’afficher. Réessayez, ou revenez à l’accueil.
         </p>
-        <div className="mt-6 flex flex-wrap justify-center gap-2">
-          <button
+        <div className="mt-10 flex flex-wrap justify-center gap-4">
+          <Button
+            variant="luxury"
             onClick={() => {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-            Try again
-          </button>
-          <a
-            href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
-          >
-            Go home
-          </a>
+            Réessayer
+          </Button>
+          <Button asChild variant="outline">
+            <a href="/">Retour à l’accueil</a>
+          </Button>
         </div>
       </div>
     </div>
@@ -80,6 +78,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "author", content: "TIZIRI" },
+      { name: "theme-color", content: "#2B241D" },
+      { property: "og:site_name", content: "TIZIRI — Créations d’Ahmed Tiziri" },
+      { property: "og:locale", content: "fr_MA" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -90,8 +91,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Manrope:wght@300;400;500;600&display=swap" },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Manrope:wght@300;400;500;600&family=Amiri:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap" },
+      { rel: "icon", href: "/tiziri-mark.svg", type: "image/svg+xml" },
     ],
   }),
   shellComponent: RootShell,
@@ -102,7 +103,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="fr">
       <head>
         <HeadContent />
       </head>
@@ -118,6 +119,6 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
-    <QueryClientProvider client={queryClient}><CartProvider><Header/><main><Outlet /></main><Footer/></CartProvider></QueryClientProvider>
+    <QueryClientProvider client={queryClient}><I18nProvider><CartProvider><Header/><main><Outlet /></main><Footer/></CartProvider></I18nProvider></QueryClientProvider>
   );
 }

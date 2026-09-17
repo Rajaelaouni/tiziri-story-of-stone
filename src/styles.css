@@ -64,6 +64,8 @@
   --color-ink: var(--ink);
   --color-forest: var(--forest);
   --color-sand: var(--sand);
+  --color-clay: var(--clay);
+  --color-silver: var(--silver);
   --color-hero-foreground: var(--hero-foreground);
 }
 
@@ -91,6 +93,10 @@
   --ink: oklch(0.16 0.018 70);
   --forest: oklch(0.33 0.055 140);
   --sand: oklch(0.84 0.045 76);
+  /* Terre d'Ourika : accent chaud, utilisé avec parcimonie (détails, motifs). */
+  --clay: oklch(0.55 0.1 45);
+  /* Argent des breloques. */
+  --silver: oklch(0.8 0.008 80);
   --hero-foreground: oklch(0.97 0.012 78);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
@@ -168,6 +174,20 @@
 @utility cart-count { position:absolute; right:.1rem; top:.05rem; display:grid; place-items:center; min-width:1rem; height:1rem; border-radius:99px; background:var(--foreground); color:var(--background); font-size:.55rem; }
 @utility text-link { display:inline-flex; align-items:center; gap:.6rem; font-size:.65rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; & svg { width:1rem; transition:transform .4s; } &:hover svg { transform:translateX(.3rem); } }
 @utility page-hero { position:relative; min-height:78svh; display:flex; align-items:flex-end; overflow:hidden; color:var(--hero-foreground); }
+@utility section-number { font-family: var(--font-serif); font-style: italic; font-size: 1rem; color: var(--clay); }
 @utility field-label { display:block; font-size:.62rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; }
+
+/* Arabe (droite à gauche) : polices dédiées, pas d'espacement de lettres (il casse la liaison
+   des caractères), pas de faux italique, hauteur de ligne adaptée, flèches retournées.
+   Hors @layer volontairement : ces règles doivent l'emporter sur les utilitaires Tailwind. */
+[dir="rtl"] body { font-family: "IBM Plex Sans Arabic", var(--font-sans); font-weight: 400; }
+[dir="rtl"] :is(.font-serif, .display-title, .section-number, blockquote) { font-family: "Amiri", serif; }
+[dir="rtl"] * { letter-spacing: 0 !important; }
+[dir="rtl"] :is(em, .italic, .section-number) { font-style: normal; }
+[dir="rtl"] :is(.display-title, h1, h2, h3, blockquote) { line-height: 1.4 !important; }
+[dir="rtl"] :is(.eyebrow, .nav-link, .text-link, .field-label) { font-size: .8rem; }
+[dir="rtl"] .lucide-arrow-right { transform: scaleX(-1); }
+[dir="rtl"] .text-link:hover .lucide-arrow-right { transform: scaleX(-1) translateX(.3rem); }
+[dir="rtl"] .cart-count { right: auto; left: .1rem; }
 
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}

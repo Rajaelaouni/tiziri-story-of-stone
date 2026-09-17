@@ -22,6 +22,7 @@ import { Route as OurikaRouteImport } from './routes/ourika'
 import { Route as PanierRouteImport } from './routes/panier'
 import { Route as CreationsIndexRouteImport } from './routes/creations.index'
 import { Route as CreationsSlugRouteImport } from './routes/creations.$slug'
+import { Route as CreationsSurMesureRouteImport } from './routes/creations.sur-mesure'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -88,6 +89,11 @@ const CreationsSlugRoute = CreationsSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => CreationsRoute,
 } as any)
+const CreationsSurMesureRoute = CreationsSurMesureRouteImport.update({
+  id: '/sur-mesure',
+  path: '/sur-mesure',
+  getParentRoute: () => CreationsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -102,6 +108,7 @@ export interface FileRoutesByFullPath {
   '/ourika': typeof OurikaRoute
   '/panier': typeof PanierRoute
   '/creations/$slug': typeof CreationsSlugRoute
+  '/creations/sur-mesure': typeof CreationsSurMesureRoute
   '/creations/': typeof CreationsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -116,6 +123,7 @@ export interface FileRoutesByTo {
   '/ourika': typeof OurikaRoute
   '/panier': typeof PanierRoute
   '/creations/$slug': typeof CreationsSlugRoute
+  '/creations/sur-mesure': typeof CreationsSurMesureRoute
   '/creations': typeof CreationsIndexRoute
 }
 export interface FileRoutesById {
@@ -132,6 +140,7 @@ export interface FileRoutesById {
   '/ourika': typeof OurikaRoute
   '/panier': typeof PanierRoute
   '/creations/$slug': typeof CreationsSlugRoute
+  '/creations/sur-mesure': typeof CreationsSurMesureRoute
   '/creations/': typeof CreationsIndexRoute
 }
 export interface FileRouteTypes {
@@ -149,6 +158,7 @@ export interface FileRouteTypes {
     | '/ourika'
     | '/panier'
     | '/creations/$slug'
+    | '/creations/sur-mesure'
     | '/creations/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -163,6 +173,7 @@ export interface FileRouteTypes {
     | '/ourika'
     | '/panier'
     | '/creations/$slug'
+    | '/creations/sur-mesure'
     | '/creations'
   id:
     | '__root__'
@@ -178,6 +189,7 @@ export interface FileRouteTypes {
     | '/ourika'
     | '/panier'
     | '/creations/$slug'
+    | '/creations/sur-mesure'
     | '/creations/'
   fileRoutesById: FileRoutesById
 }
@@ -288,16 +300,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CreationsSlugRouteImport
       parentRoute: typeof CreationsRoute
     }
+    '/creations/sur-mesure': {
+      id: '/creations/sur-mesure'
+      path: '/sur-mesure'
+      fullPath: '/creations/sur-mesure'
+      preLoaderRoute: typeof CreationsSurMesureRouteImport
+      parentRoute: typeof CreationsRoute
+    }
   }
 }
 
 interface CreationsRouteChildren {
   CreationsSlugRoute: typeof CreationsSlugRoute
+  CreationsSurMesureRoute: typeof CreationsSurMesureRoute
   CreationsIndexRoute: typeof CreationsIndexRoute
 }
 
 const CreationsRouteChildren: CreationsRouteChildren = {
   CreationsSlugRoute: CreationsSlugRoute,
+  CreationsSurMesureRoute: CreationsSurMesureRoute,
   CreationsIndexRoute: CreationsIndexRoute,
 }
 

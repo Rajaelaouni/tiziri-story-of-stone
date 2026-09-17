@@ -1,0 +1,7 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" fill="#F5F0E9"/>
+  <circle cx="180" cy="170" r="118" stroke="#2D2A26" stroke-width="10" opacity="0.9"/>
+  <path d="M112 220C146 146 201 101 267 83C234 150 201 205 162 277C129 334 95 382 53 424C31 366 40 287 112 220Z" fill="#2D2A26" opacity="0.9"/>
+  <path d="M198 296C247 271 290 237 320 189C289 192 258 198 226 208C179 221 136 239 93 268L198 296Z" fill="#2D2A26" opacity="0.74"/>
+  <text x="96" y="442" fill="#2D2A26" font-family="Georgia, 'Times New Roman', serif" font-size="106" letter-spacing="26">TIZIRI</text>
+</svg>
