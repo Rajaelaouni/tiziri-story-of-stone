@@ -164,6 +164,49 @@ function Page() {
         </div>
       </section>
 
+      <section className="border-t border-border px-6 py-24 md:py-32">
+        <div className="mx-auto max-w-7xl">
+          <Reveal className="mx-auto max-w-3xl text-center">
+            <Eyebrow className="text-clay">{t("Le récit", "الحكاية")}</Eyebrow>
+            <blockquote className="display-title mt-6 text-4xl italic md:text-6xl">{L(p.narrative.quote)}</blockquote>
+            <Motif className="mt-8 text-clay" />
+          </Reveal>
+          <Reveal className="mx-auto mt-14 max-w-2xl">
+            <p className="font-serif text-xl leading-9 md:text-2xl md:leading-10">{L(p.narrative.prologue)}</p>
+            <div className="mt-12 border-s-2 border-clay ps-6">
+              <Eyebrow>{t("Pourquoi ce nom", "لماذا هذا الاسم")}</Eyebrow>
+              <p className="mt-3 leading-8 text-muted-foreground">{L(p.narrative.naming)}</p>
+            </div>
+          </Reveal>
+          <div className="mt-20 grid gap-12 border-t border-border pt-16 md:grid-cols-2 md:gap-x-20 md:gap-y-16">
+            {p.narrative.chapters.map((c, i) => (
+              <Reveal key={c.title.fr}>
+                <p className="section-number">{String(i + 1).padStart(2, "0")}</p>
+                <h3 className="mt-3 font-serif text-3xl">{L(c.title)}</h3>
+                <p className="mt-4 leading-8 text-muted-foreground">{L(c.text)}</p>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal className="mt-20 grid gap-12 border-t border-border pt-14 md:grid-cols-2 md:gap-20">
+            <div>
+              <Eyebrow>{t("À regarder de près", "تأمّل عن قرب")}</Eyebrow>
+              <ul className="mt-6 grid gap-4">
+                {p.narrative.details.map((d) => (
+                  <li key={d.fr} className="flex gap-4 leading-7 text-muted-foreground">
+                    <span className="text-clay">—</span>
+                    {L(d)}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <Eyebrow>{p.kind === "coffret" ? t("Les porter", "ارتداؤها") : t("La porter", "ارتداؤها")}</Eyebrow>
+              <p className="mt-6 font-serif text-2xl italic leading-9">{L(p.narrative.wear)}</p>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       <section className="relative min-h-[75svh] text-hero-foreground">
         <img src={ourika} alt={t("Paysage naturel d’Ourika", "منظر طبيعي من أوريكا")} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-ink/45" />

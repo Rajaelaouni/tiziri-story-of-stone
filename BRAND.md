@@ -26,7 +26,7 @@ Ni boutique de bijoux, ni artisanat « souvenir » : une marque d’auteur, où 
 - Vocabulaire : *création, pièce, matière, geste, nuance, vallée, lumière, adopter, porter*.
 
 ## Identité visuelle
-- **Emblème** : croissant de lune (tiziri) au-dessus des crêtes de l’Atlas et d’une ligne d’eau (`src/components/Brand.tsx`, `public/tiziri-mark.svg`).
+- **Emblème** : un bracelet de pierres graduées qui dessine un croissant de lune (tiziri), et tient en son creux un losange amazigh — la pierre façonnée. Lune = le nom, perles = le produit, losange = l’héritage (`src/components/Brand.tsx`, `public/tiziri-mark.svg`, `public/tiziri-logo.svg`).
 - **Motif signature** : frise de losanges et chevrons inspirée de la géométrie des tapis et bijoux amazighs (`src/components/Motif.tsx`). Utilisé comme séparateur, avec parcimonie.
 - **Palette** (`src/styles.css`) : ivoire (fond), sable, nuit (`ink`), cèdre (`forest`), **argile** (`clay`, accent chaud pour numéros et sur-titres), argent (`silver`). Les couleurs vives viennent uniquement des bracelets.
 - **Typographie** : Cormorant Garamond (titres, citations en italique) + Manrope (texte).

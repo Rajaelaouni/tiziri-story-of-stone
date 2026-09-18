@@ -1,8 +1,21 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Bracelet de pierres en croissant de lune (tiziri) + losange amazigh -->
   <rect width="64" height="64" rx="14" fill="#F4EEE4"/>
-  <g transform="translate(8 7)" fill="none" stroke="#2B241D">
-    <path d="M30 5A9.5 9.5 0 0 0 30 24A11.5 11.5 0 0 1 30 5Z" fill="#9C5A3C" stroke="none"/>
-    <path d="M3 41L17 22L25 32L31 25.5L45 41" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/>
-    <path d="M8 46.5c3-1.6 6-1.6 9 0s6 1.6 9 0 6-1.6 9 0 3 1.2 5 .6" stroke-width="1.8" stroke-linecap="round" opacity="0.7"/>
+  <g transform="translate(12 8)">
+    <g fill="#2B241D">
+      <circle cx="34.93" cy="10.98" r="1.2"/>
+      <circle cx="28.11" cy="7.5" r="1.91"/>
+      <circle cx="20.47" cy="7.37" r="2.55"/>
+      <circle cx="13.53" cy="10.6" r="3.06"/>
+      <circle cx="8.72" cy="16.55" r="3.39"/>
+      <circle cx="7" cy="24" r="3.5"/>
+      <circle cx="8.72" cy="31.45" r="3.39"/>
+      <circle cx="13.53" cy="37.4" r="3.06"/>
+      <circle cx="20.47" cy="40.63" r="2.55"/>
+      <circle cx="28.11" cy="40.5" r="1.91"/>
+      <circle cx="34.93" cy="37.02" r="1.2"/>
+    </g>
+    <path d="M26 16.5L31 24L26 31.5L21 24Z" fill="none" stroke="#9C5A3C" stroke-width="1.8" stroke-linejoin="round"/>
+    <path d="M26 21.5L28 24L26 26.5L24 24Z" fill="#9C5A3C"/>
   </g>
 </svg>

@@ -2,25 +2,38 @@ import { Link } from "@tanstack/react-router";
 import { brand } from "@/lib/brand";
 import { useI18n } from "@/lib/i18n";
 
-/** Emblème TIZIRI : le clair de lune (tiziri) au-dessus des crêtes de l’Atlas et de l’eau d’Ourika. */
+/** Perles graduées posées sur un cercle : lues ensemble, elles dessinent un croissant de lune. */
+const BEADS: [number, number, number][] = [
+  [34.93, 10.98, 1.2],
+  [28.11, 7.5, 1.91],
+  [20.47, 7.37, 2.55],
+  [13.53, 10.6, 3.06],
+  [8.72, 16.55, 3.39],
+  [7, 24, 3.5],
+  [8.72, 31.45, 3.39],
+  [13.53, 37.4, 3.06],
+  [20.47, 40.63, 2.55],
+  [28.11, 40.5, 1.91],
+  [34.93, 37.02, 1.2],
+];
+
+/**
+ * Emblème TIZIRI : un bracelet de pierres qui forme le clair de lune (tiziri),
+ * et tient en son creux un losange amazigh, la pierre façonnée.
+ */
 export function BrandMark({ className = "h-9 w-9" }: { className?: string }) {
   return (
-    <svg viewBox="0 0 48 50" className={className} fill="none" aria-hidden="true">
-      <path d="M30 5A9.5 9.5 0 0 0 30 24A11.5 11.5 0 0 1 30 5Z" fill="currentColor" />
+    <svg viewBox="0 0 48 48" className={className} fill="none" aria-hidden="true">
+      {BEADS.map(([cx, cy, r]) => (
+        <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r={r} fill="currentColor" />
+      ))}
       <path
-        d="M3 41L17 22L25 32L31 25.5L45 41"
+        d="M26 16.5L31 24L26 31.5L21 24Z"
         stroke="currentColor"
-        strokeWidth="1.6"
+        strokeWidth="1.5"
         strokeLinejoin="round"
-        strokeLinecap="round"
       />
-      <path
-        d="M8 46.5c3-1.6 6-1.6 9 0s6 1.6 9 0 6-1.6 9 0 3 1.2 5 .6"
-        stroke="currentColor"
-        strokeWidth="1.2"
-        strokeLinecap="round"
-        opacity="0.7"
-      />
+      <path d="M26 21.5L28 24L26 26.5L24 24Z" fill="currentColor" opacity="0.75" />
     </svg>
   );
 }

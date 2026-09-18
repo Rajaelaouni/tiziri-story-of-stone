@@ -12,4 +12,6 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  // Sur Vercel (variable VERCEL définie), cibler Vercel ; ailleurs, garder la cible Lovable par défaut.
+  ...(process.env.VERCEL ? { nitro: { preset: "vercel" } } : {}),
 });

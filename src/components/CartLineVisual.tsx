@@ -6,3 +6,4 @@ export function CartLineVisual({ line, className }: { line: CartLine; className:
   if (line.custom) return <BraceletPreview config={line.custom} className={`${className} bg-sand/40`} />;
   return <img src={line.image} alt={line.name} className={`${className} object-cover`} />;
 }
+
