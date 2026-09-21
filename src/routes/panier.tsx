@@ -69,9 +69,12 @@ function Page() {
             </div>
             <aside className="border-t border-border pt-7">
               <div className="flex justify-between">
-                <span className="eyebrow">{t("Total", "المجموع")}</span>
+                <span className="eyebrow">{t("Sous-total", "المجموع الفرعي")}</span>
                 <strong className="font-serif text-3xl font-normal">{formatPrice(c.total, lang)}</strong>
               </div>
+              <p className="mt-3 text-xs text-muted-foreground">
+                {t("La livraison se choisit à l’étape suivante.", "تُختار طريقة التوصيل في الخطوة التالية.")}
+              </p>
               <Button asChild variant="luxury" className="mt-8 w-full">
                 <Link to="/checkout">
                   {t("Passer à la commande", "إتمام الطلب")} <ArrowRight />

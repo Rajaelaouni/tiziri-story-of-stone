@@ -17,6 +17,7 @@ import { Route as ConditionsRouteImport } from './routes/conditions'
 import { Route as ConfidentialiteRouteImport } from './routes/confidentialite'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CreationsRouteImport } from './routes/creations'
+import { Route as HistoireRouteImport } from './routes/histoire'
 import { Route as MentionsLegalesRouteImport } from './routes/mentions-legales'
 import { Route as OurikaRouteImport } from './routes/ourika'
 import { Route as PanierRouteImport } from './routes/panier'
@@ -64,6 +65,11 @@ const CreationsRoute = CreationsRouteImport.update({
   path: '/creations',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HistoireRoute = HistoireRouteImport.update({
+  id: '/histoire',
+  path: '/histoire',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MentionsLegalesRoute = MentionsLegalesRouteImport.update({
   id: '/mentions-legales',
   path: '/mentions-legales',
@@ -104,6 +110,7 @@ export interface FileRoutesByFullPath {
   '/confidentialite': typeof ConfidentialiteRoute
   '/contact': typeof ContactRoute
   '/creations': typeof CreationsRouteWithChildren
+  '/histoire': typeof HistoireRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/ourika': typeof OurikaRoute
   '/panier': typeof PanierRoute
@@ -119,6 +126,7 @@ export interface FileRoutesByTo {
   '/conditions': typeof ConditionsRoute
   '/confidentialite': typeof ConfidentialiteRoute
   '/contact': typeof ContactRoute
+  '/histoire': typeof HistoireRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/ourika': typeof OurikaRoute
   '/panier': typeof PanierRoute
@@ -136,6 +144,7 @@ export interface FileRoutesById {
   '/confidentialite': typeof ConfidentialiteRoute
   '/contact': typeof ContactRoute
   '/creations': typeof CreationsRouteWithChildren
+  '/histoire': typeof HistoireRoute
   '/mentions-legales': typeof MentionsLegalesRoute
   '/ourika': typeof OurikaRoute
   '/panier': typeof PanierRoute
@@ -154,6 +163,7 @@ export interface FileRouteTypes {
     | '/confidentialite'
     | '/contact'
     | '/creations'
+    | '/histoire'
     | '/mentions-legales'
     | '/ourika'
     | '/panier'
@@ -169,6 +179,7 @@ export interface FileRouteTypes {
     | '/conditions'
     | '/confidentialite'
     | '/contact'
+    | '/histoire'
     | '/mentions-legales'
     | '/ourika'
     | '/panier'
@@ -185,6 +196,7 @@ export interface FileRouteTypes {
     | '/confidentialite'
     | '/contact'
     | '/creations'
+    | '/histoire'
     | '/mentions-legales'
     | '/ourika'
     | '/panier'
@@ -202,6 +214,7 @@ export interface RootRouteChildren {
   ConfidentialiteRoute: typeof ConfidentialiteRoute
   ContactRoute: typeof ContactRoute
   CreationsRoute: typeof CreationsRouteWithChildren
+  HistoireRoute: typeof HistoireRoute
   MentionsLegalesRoute: typeof MentionsLegalesRoute
   OurikaRoute: typeof OurikaRoute
   PanierRoute: typeof PanierRoute
@@ -263,6 +276,13 @@ declare module '@tanstack/react-router' {
       path: '/creations'
       fullPath: '/creations'
       preLoaderRoute: typeof CreationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/histoire': {
+      id: '/histoire'
+      path: '/histoire'
+      fullPath: '/histoire'
+      preLoaderRoute: typeof HistoireRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mentions-legales': {
@@ -335,6 +355,7 @@ const rootRouteChildren: RootRouteChildren = {
   ConfidentialiteRoute: ConfidentialiteRoute,
   ContactRoute: ContactRoute,
   CreationsRoute: CreationsRouteWithChildren,
+  HistoireRoute: HistoireRoute,
   MentionsLegalesRoute: MentionsLegalesRoute,
   OurikaRoute: OurikaRoute,
   PanierRoute: PanierRoute,

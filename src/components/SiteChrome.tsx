@@ -7,7 +7,7 @@ import { useCart } from "@/context/CartContext";
 import { brand, navLinks } from "@/lib/brand";
 import { useI18n } from "@/lib/i18n";
 
-const heroPages = ["/", "/ourika", "/atelier", "/ahmed-tiziri"];
+const heroPages = ["/", "/histoire", "/ourika", "/atelier", "/ahmed-tiziri"];
 
 /** Bascule français / arabe. Affiche la langue vers laquelle on passe. */
 function LanguageSwitch({ className = "" }: { className?: string }) {

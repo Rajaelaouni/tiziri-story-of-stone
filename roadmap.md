@@ -5,3 +5,5 @@
 - [x] Ourika, Atelier, Ahmed, Contact
 - [x] Cart, checkout, legal pages
 - [x] Responsive and interaction validation
+- [x] Immersive chaptered story (/histoire)
+- [x] Delivery options and order confirmation at checkout

@@ -48,6 +48,7 @@ export const brand = {
 
 export const navLinks = [
   ["/", { fr: "Accueil", ar: "الرئيسية" }],
+  ["/histoire", { fr: "L’histoire", ar: "الحكاية" }],
   ["/creations", { fr: "Les créations", ar: "الإبداعات" }],
   ["/ourika", { fr: "Ourika", ar: "أوريكا" }],
   ["/atelier", { fr: "L’atelier", ar: "الورشة" }],

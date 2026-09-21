@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion, useScroll, useTransform } from "motion/react";
 import { ArrowDown, ArrowRight } from "lucide-react";
 import backhero from "@/assets/backhero.png";
+import backheroMobile from "@/assets/backhero-mobile.jpg";
 import ourika from "@/assets/ourika-landscape.jpg";
 import atelier from "@/assets/atelier-hands.jpg";
 import portrait from "@/assets/ahmed-portrait.jpg";
@@ -61,17 +62,24 @@ function Home() {
     <>
       {/* 1. NATURE — l'immersion */}
       <section className="relative min-h-[100svh] overflow-hidden bg-ink text-hero-foreground">
-        <motion.img
-          style={{ y }}
-          initial={{ scale: 1.08 }}
-          animate={{ scale: 1 }}
-          transition={{ duration: 2.4, ease: [0.22, 1, 0.36, 1] }}
-          src={backhero}
-          alt={t("Bracelet Tiziri posé sur une pierre, dans la vallée d’Ourika au coucher du soleil", "سوار تيزيري على حجر في وادي أوريكا عند الغروب")}
-          className="absolute inset-0 h-[112%] w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-ink/75 via-ink/25 to-transparent rtl:bg-gradient-to-l" />
-        <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1500px] items-center px-6 pt-24 lg:px-16">
+        {/* Cadrage portrait sur mobile, paysage à partir de la tablette. */}
+        <picture>
+          <source media="(max-width: 767px)" srcSet={backheroMobile} />
+          <motion.img
+            style={{ y }}
+            initial={{ scale: 1.08 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 2.4, ease: [0.22, 1, 0.36, 1] }}
+            src={backhero}
+            alt={t("Bracelet Tiziri posé sur une pierre, dans la vallée d’Ourika au coucher du soleil", "سوار تيزيري على حجر في وادي أوريكا عند الغروب")}
+            className="absolute inset-0 h-[112%] w-full object-cover"
+          />
+        </picture>
+        {/* Portrait : voile vertical, le texte passe sur le ciel et la roche claire.
+            Paysage : voile latéral, la pièce reste dégagée à droite. */}
+        <div className="absolute inset-0 bg-gradient-to-b from-ink/85 via-ink/45 to-ink/65 md:bg-gradient-to-r md:from-ink/75 md:via-ink/25 md:to-transparent md:rtl:bg-gradient-to-l" />
+        {/* Portrait : le texte se pose sur le ciel et laisse la pièce visible en bas. */}
+        <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1500px] items-start px-6 pt-28 md:items-center md:pt-24 lg:px-16">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -102,6 +110,9 @@ function Home() {
                   {t("Découvrir les créations", "اكتشف الإبداعات")} <ArrowRight />
                 </Link>
               </Button>
+              <Link to="/histoire" className="text-link">
+                {t("Vivre l’histoire", "عِش الحكاية")} <ArrowRight />
+              </Link>
               <Link to="/ahmed-tiziri" className="text-link">
                 {t("Rencontrer le créateur", "تعرّف على المبدع")} <ArrowRight />
               </Link>
