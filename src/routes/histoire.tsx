@@ -10,6 +10,7 @@ import matiereImage from "@/assets/produit1Atlass.png";
 import mainsImage from "@/assets/atelier-hands.jpg";
 import portraitImage from "@/assets/ahmed-portrait.jpg";
 import { BrandMark } from "@/components/Brand";
+import { Motif } from "@/components/Motif";
 import { Button } from "@/components/ui/button";
 import { coffrets, creations, elementLabels, separateValue } from "@/data.products";
 import { brand } from "@/lib/brand";
@@ -58,8 +59,24 @@ type Chapter = {
   /** Variante portrait, servie sous 768 px quand elle existe. */
   imageMobile?: string;
   alt: string;
+  /** Chapitre sans titre affiché : le texte d'ouverture en tient lieu. */
+  titleHidden?: boolean;
   aside?: ReactNode;
 };
+
+/** Les éléments d'un chapitre entrent l'un après l'autre : numéro, titre, texte, repères. */
+function Rise({ children, delay = 0, className = "" }: { children: ReactNode; delay?: number; className?: string }) {
+  return (
+    <motion.div
+      className={className}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay, ease }}
+    >
+      {children}
+    </motion.div>
+  );
+}
 
 /** Repères d'un chapitre : libellé en capitales, valeur en serif. */
 function Markers({ items }: { items: [string, string][] }) {
@@ -95,20 +112,7 @@ function Page() {
         "Cette lumière douce qui révèle les reliefs sans les brûler. C’est ce que nous cherchons dans chaque matière : une couleur qui ne crie pas, une texture qui raconte, un éclat qui accompagne.",
         "ذلك النور الهادئ الذي يكشف التضاريس دون أن يحرقها. هذا ما نبحث عنه في كل مادة: لون لا يصرخ، وملمس يحكي، وبريق يرافق.",
       ),
-      aside: (
-        <div className="flex items-center gap-5 bg-ink/60 p-5 backdrop-blur-sm">
-          <BrandMark className="h-16 w-16 shrink-0 text-sand" />
-          <div>
-            <p className="eyebrow text-sand">{t("L’emblème", "الشعار")}</p>
-            <p className="mt-2 text-sm leading-6 opacity-85">
-              {t(
-                "Un bracelet de pierres qui dessine un croissant de lune. En son creux, un losange amazigh : la pierre façonnée.",
-                "سوار من الأحجار يرسم هلالًا. وفي جوفه معيّن أمازيغي: الحجر المصقول.",
-              )}
-            </p>
-          </div>
-        </div>
-      ),
+      titleHidden: true,
     },
     {
       n: "02",
@@ -249,6 +253,8 @@ function Page() {
     (next: number) => {
       const target = Math.min(Math.max(next, 0), total);
       setStep((current) => {
+        // Android : une vibration brève confirme le changement de chapitre.
+        if (target !== current) navigator.vibrate?.(8);
         if (target !== current) setDir((target > current ? 1 : -1) * (lang === "ar" ? -1 : 1));
         return target;
       });
@@ -322,27 +328,37 @@ function Page() {
           </picture>
         ) : null,
       )}
-      <div className="fixed inset-0 bg-gradient-to-t from-ink via-ink/75 to-ink/35 lg:absolute lg:via-ink/70" />
+      <div className="fixed inset-0 bg-gradient-to-t from-ink via-ink/75 to-ink/55 lg:absolute lg:via-ink/70 lg:to-ink/35" />
 
       <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1500px] flex-col px-6 pt-20 lg:px-14 lg:pb-10 lg:pt-30">
         {/* Repère de lecture */}
         <div className="flex items-center justify-between text-[.6rem] uppercase tracking-[.18em] rtl:text-xs">
-          <span>
-            {step === 0
-              ? t("Le récit", "الحكاية")
-              : `${t("Chapitre", "الفصل")} ${chapter?.n} / ${String(total).padStart(2, "0")}`}
-          </span>
+          <span>{t("Le récit", "الحكاية")}</span>
           {step < total && (
             <Link to="/creations" className="opacity-70 transition-opacity hover:opacity-100">
               {t("Passer", "تخطّي")}
             </Link>
           )}
         </div>
-        <div className="mt-4 flex gap-1.5" aria-hidden="true">
+        {/* Fil du récit : un segment par chapitre, touchable pour y revenir ou y sauter. */}
+        <nav className="mt-1 flex gap-1.5" aria-label={t("Chapitres", "الفصول")}>
           {chapters.map((c, i) => (
-            <span key={c.n} className={`h-0.5 flex-1 lg:h-px transition-colors duration-700 ${i < step ? "bg-hero-foreground" : "bg-hero-foreground/25"}`} />
+            <button
+              key={c.n}
+              type="button"
+              onClick={() => go(i + 1)}
+              aria-label={`${t("Chapitre", "الفصل")} ${c.n} : ${c.title}`}
+              aria-current={i + 1 === step ? "step" : undefined}
+              className="flex-1 cursor-pointer py-3"
+            >
+              <span className="block h-0.5 overflow-hidden bg-hero-foreground/25 lg:h-px">
+                <span
+                  className={`block h-full origin-left transition-transform duration-700 rtl:origin-right ${i + 1 === step ? "bg-sand" : "bg-hero-foreground"} ${i < step ? "scale-x-100" : "scale-x-0"}`}
+                />
+              </span>
+            </button>
           ))}
-        </div>
+        </nav>
         <p className="sr-only" aria-live="polite">
           {step === 0
             ? t("Début du récit", "بداية الحكاية")
@@ -360,15 +376,6 @@ function Page() {
             transition={{ duration: 0.6, ease }}
             className="relative flex flex-1 flex-col"
           >
-            {/* Téléphone : le numéro du chapitre, en filigrane. */}
-            {chapter && !isFinal && (
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute end-0 top-2 font-serif text-[8.5rem] italic leading-none text-hero-foreground/10 lg:hidden"
-              >
-                {chapter.n}
-              </span>
-            )}
             {step === 0 && (
               <div className="flex flex-1 flex-col items-center justify-center py-14 text-center">
                 <BrandMark className="h-12 w-12 text-sand" />
@@ -391,21 +398,50 @@ function Page() {
             )}
 
             {chapter && !isFinal && (
-              <div className="grid flex-1 content-end gap-8 pb-8 pt-40 lg:grid-cols-[1.1fr_.9fr] lg:gap-12 lg:py-12 lg:items-end lg:gap-20">
+              <div className="grid flex-1 content-start gap-8 pb-8 pt-6 lg:content-end lg:grid-cols-[1.1fr_.9fr] lg:items-end lg:gap-20 lg:py-12">
                 <div>
-                  <p className="eyebrow text-sand">
-                    {t("Chapitre", "الفصل")} {chapter.n}
-                  </p>
-                  <h1 className="display-title mt-4 text-[clamp(2.6rem,6vw,5rem)]">{chapter.title}</h1>
-                  <p className="mt-5 max-w-lg font-serif text-xl italic leading-8 md:mt-7 md:text-2xl md:leading-9">{chapter.lede}</p>
-                  {chapter.body && <p className="mt-5 max-w-lg leading-8 opacity-85">{chapter.body}</p>}
+                  <Rise className="flex items-center gap-4">
+                    <span className="font-serif text-5xl italic leading-none text-sand">{chapter.n}</span>
+                    <span className="h-px w-12 bg-sand/60" />
+                    <span className="eyebrow opacity-70">
+                      {t("Chapitre", "الفصل")} {chapter.n} {t("sur", "من")} {String(total).padStart(2, "0")}
+                    </span>
+                  </Rise>
+                  {chapter.titleHidden ? (
+                    <Rise delay={0.12}>
+                      <h1 className="mt-6 max-w-lg font-serif text-[clamp(2.2rem,4vw,3.4rem)] italic leading-[1.12]">{chapter.lede}</h1>
+                    </Rise>
+                  ) : (
+                    <>
+                      <Rise delay={0.12}>
+                        <h1 className="display-title mt-6 text-[clamp(2.6rem,6vw,5rem)]">{chapter.title}</h1>
+                      </Rise>
+                      <Rise delay={0.24}>
+                        <p className="mt-5 max-w-lg font-serif text-xl italic leading-8 md:mt-7 md:text-2xl md:leading-9">{chapter.lede}</p>
+                      </Rise>
+                    </>
+                  )}
+                  {chapter.body && (
+                    <Rise delay={0.36}>
+                      <p className="mt-5 max-w-lg border-s border-sand/50 ps-4 leading-8 opacity-90">{chapter.body}</p>
+                    </Rise>
+                  )}
+                  {chapter.titleHidden && (
+                    <Rise delay={0.48}>
+                      <Motif className="mt-8 justify-start text-sand" />
+                    </Rise>
+                  )}
                 </div>
-                {chapter.aside && <div className="w-full lg:max-w-sm lg:justify-self-end">{chapter.aside}</div>}
+                {chapter.aside && (
+                  <Rise delay={0.48} className="w-full lg:max-w-sm lg:justify-self-end">
+                    {chapter.aside}
+                  </Rise>
+                )}
               </div>
             )}
 
             {chapter && isFinal && (
-              <div className="flex flex-1 flex-col justify-center py-8 lg:py-12">
+              <div className="flex flex-1 flex-col pb-8 pt-6 lg:justify-center lg:py-12">
                 <div className="max-w-2xl">
                   <p className="eyebrow text-sand">
                     {t("Chapitre", "الفصل")} {chapter.n}

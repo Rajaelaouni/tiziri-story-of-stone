@@ -70,6 +70,16 @@ function Page() {
     ["ville", t("Ville", "المدينة")],
     ["pays", t("Pays", "البلد")],
   ];
+  // Remplissage automatique du téléphone : chaque champ annonce ce qu'il attend.
+  const autoComplete: Record<string, string> = {
+    nom: "family-name",
+    prenom: "given-name",
+    email: "email",
+    telephone: "tel",
+    adresse: "street-address",
+    ville: "address-level2",
+    pays: "country-name",
+  };
 
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -128,16 +138,16 @@ function Page() {
     );
 
   return (
-    <section className="px-6 pb-24 pt-36">
+    <section className="px-6 pb-36 pt-24 md:pt-36 lg:pb-24">
       <div className="mx-auto max-w-7xl">
-        <h1 className="display-title text-5xl md:text-7xl">{t("Confirmer votre commande", "تأكيد طلبك")}</h1>
-        <div className="mt-10 grid grid-cols-3 border-y border-border py-5 text-[.62rem] uppercase tracking-[.12em] rtl:text-sm">
+        <h1 className="display-title text-[2.4rem] md:text-7xl">{t("Confirmer votre commande", "تأكيد طلبك")}</h1>
+        <div className="mt-7 grid grid-cols-3 gap-2 border-y border-border py-4 text-[.58rem] uppercase tracking-[.1em] md:mt-10 md:py-5 md:text-[.62rem] md:tracking-[.12em] rtl:text-sm">
           <span>01 {t("Informations", "المعلومات")}</span>
           <span>02 {t("Livraison", "التوصيل")}</span>
           <span>03 {t("Confirmation", "التأكيد")}</span>
         </div>
-        <form onSubmit={submit} className="mt-14 grid gap-14 lg:grid-cols-[1fr_23rem]">
-          <div className="grid gap-7 sm:grid-cols-2">
+        <form onSubmit={submit} className="mt-10 grid gap-12 md:mt-14 md:gap-14 lg:grid-cols-[1fr_23rem]">
+          <div className="grid gap-6 sm:grid-cols-2 md:gap-7">
             {fields.map(([n, l]) => (
               <label key={n} className={`field-label ${n === "adresse" ? "sm:col-span-2" : ""}`}>
                 {l}
@@ -145,7 +155,10 @@ function Page() {
                   name={n}
                   type={n === "email" ? "email" : n === "telephone" ? "tel" : "text"}
                   dir={n === "email" || n === "telephone" ? "ltr" : undefined}
-                  className="text-start"
+                  autoComplete={autoComplete[n ?? ""]}
+                  inputMode={n === "email" ? "email" : n === "telephone" ? "tel" : undefined}
+                  enterKeyHint={n === "pays" ? "done" : "next"}
+                  className="text-start text-base"
                   required
                 />
               </label>
@@ -174,7 +187,7 @@ function Page() {
               </div>
             </fieldset>
           </div>
-          <aside className="border-s border-border ps-7">
+          <aside className="border-t border-border pt-8 lg:border-s lg:border-t-0 lg:ps-7 lg:pt-0">
             <h2 className="eyebrow">{t("Votre création", "إبداعك")}</h2>
             {c.lines.map((l) => (
               <div key={l.id} className="mt-6 flex gap-4">
@@ -204,10 +217,21 @@ function Page() {
                 </dd>
               </div>
             </dl>
-            <Button type="submit" variant="luxury" className="mt-8 w-full" disabled={!c.lines.length}>
+            <Button type="submit" variant="luxury" className="mt-8 hidden w-full lg:inline-flex" disabled={!c.lines.length}>
               {t("Confirmer ma commande", "تأكيد طلبي")} {arrow}
             </Button>
           </aside>
+
+          {/* Téléphone : le total et la confirmation restent sous le pouce. */}
+          <div className="fixed inset-x-0 bottom-0 z-40 flex items-center gap-4 border-t border-border bg-background/95 px-4 pb-[calc(.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur-md lg:hidden">
+            <div className="min-w-0 flex-1">
+              <p className="eyebrow text-muted-foreground">{t("Total", "المجموع")}</p>
+              <p className="font-serif text-2xl leading-tight">{formatPrice(c.total + shipping, lang)}</p>
+            </div>
+            <Button type="submit" variant="luxury" disabled={!c.lines.length}>
+              {t("Confirmer", "تأكيد")} {arrow}
+            </Button>
+          </div>
         </form>
       </div>
     </section>
