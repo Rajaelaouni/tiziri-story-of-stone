@@ -32,7 +32,7 @@ export function ProductStory({ product, index = 0 }: { product: Product; index?:
   const name = L(product.name);
   return (
     <Reveal
-      className={`group grid items-center gap-10 py-14 md:grid-cols-2 md:gap-20 ${index % 2 ? "md:[&>a:first-child]:order-2" : ""}`}
+      className={`group grid items-center gap-8 py-10 md:gap-10 md:py-14 md:grid-cols-2 md:gap-20 ${index % 2 ? "md:[&>a:first-child]:order-2" : ""}`}
     >
       <Link
         to="/creations/$slug"
@@ -86,6 +86,36 @@ export function ProductStory({ product, index = 0 }: { product: Product; index?:
   );
 }
 
+/** Sur téléphone : les créations se feuillettent du pouce, une carte à la fois. */
+export function ProductRail({ products = creations }: { products?: Product[] }) {
+  const { t, L, lang } = useI18n();
+  return (
+    <div className="rail -mx-6 scroll-px-6 gap-4 px-6 pb-2 md:hidden">
+      {products.map((p, i) => (
+        <Link key={p.id} to="/creations/$slug" params={{ slug: p.slug }} className="block w-[78vw] max-w-sm">
+          <div className="relative overflow-hidden bg-sand/40">
+            <img src={p.images[0]} alt={L(p.name)} loading="lazy" className="aspect-[4/5] w-full object-cover" />
+            <span className="absolute start-4 top-4 bg-background/85 px-3 py-1.5 text-[.58rem] font-semibold uppercase tracking-[.18em] backdrop-blur-sm rtl:text-xs">
+              {L(elementLabels[p.element])}
+            </span>
+            <span className="absolute bottom-4 end-4 font-serif text-sm italic text-hero-foreground drop-shadow">
+              {String(i + 1).padStart(2, "0")} / {String(products.length).padStart(2, "0")}
+            </span>
+          </div>
+          <h3 className="mt-5 font-serif text-2xl leading-tight">{L(p.name)}</h3>
+          <p className="mt-2 line-clamp-2 font-serif text-lg italic leading-7 text-muted-foreground">{L(p.description)}</p>
+          <div className="mt-4 flex items-center justify-between border-t border-border pt-4">
+            <span className="font-serif text-2xl">{formatPrice(p.price, lang)}</span>
+            <span className="text-link">
+              {t("Découvrir", "اكتشف")} <ArrowRight />
+            </span>
+          </div>
+        </Link>
+      ))}
+    </div>
+  );
+}
+
 export function ProductStories() {
   return (
     <>
@@ -113,7 +143,7 @@ export function SurMesureFeature() {
     t("Taille", "المقاس"),
   ];
   return (
-    <section className="bg-forest px-6 py-24 text-hero-foreground md:py-32">
+    <section className="bg-forest px-6 py-16 text-hero-foreground md:py-32">
       <div className="mx-auto grid max-w-7xl items-center gap-14 md:grid-cols-[1.1fr_.9fr] md:gap-20">
         <Reveal className="grid grid-cols-3 gap-3 md:gap-5">
           {sampleConfigs.map((c, i) => (
@@ -124,8 +154,8 @@ export function SurMesureFeature() {
         </Reveal>
         <Reveal>
           <Eyebrow className="text-sand">{t("Sur mesure", "حسب الطلب")}</Eyebrow>
-          <h2 className="display-title mt-5 text-5xl md:text-7xl">{t("Composez votre histoire", "اصنع حكايتك")}</h2>
-          <p className="mt-6 max-w-md font-serif text-2xl italic leading-9">
+          <h2 className="display-title mt-5 text-[2.6rem] md:text-7xl">{t("Composez votre histoire", "اصنع حكايتك")}</h2>
+          <p className="mt-6 max-w-md font-serif text-xl italic leading-8 md:text-2xl md:leading-9">
             {t(
               "Choisissez la matière, vos couleurs, la fermeture et la breloque. Ahmed l’assemble ensuite à la main, pour vous.",
               "اختر المادة، وألوانك، وطريقة الإغلاق، والدلّاية. ثم يجمعه أحمد بيديه، من أجلك.",
@@ -138,7 +168,7 @@ export function SurMesureFeature() {
               </li>
             ))}
           </ol>
-          <Button asChild variant="ivory" size="lg" className="mt-10">
+          <Button asChild variant="ivory" size="lg" className="mt-10 w-full sm:w-auto">
             <Link to="/creations/sur-mesure">
               {t("Composer mon bracelet", "صمّم سوارك")} <ArrowRight />
             </Link>
@@ -156,7 +186,7 @@ export function CoffretFeature() {
   if (!coffret) return null;
   const value = separateValue(coffret);
   return (
-    <section className="bg-sand/35 px-6 py-24 md:py-32">
+    <section className="bg-sand/35 px-6 py-16 md:py-32">
       <Reveal className="mx-auto grid max-w-7xl items-center gap-12 md:grid-cols-[1.1fr_.9fr] md:gap-20">
         <img
           src={coffret.images[0]}
@@ -168,8 +198,8 @@ export function CoffretFeature() {
         />
         <div>
           <Eyebrow className="text-clay">{t("Le coffret", "العلبة")}</Eyebrow>
-          <h2 className="display-title mt-5 text-5xl md:text-7xl">{L(coffret.name)}</h2>
-          <p className="mt-6 font-serif text-2xl italic leading-9">{L(coffret.description)}</p>
+          <h2 className="display-title mt-5 text-[2.6rem] md:text-7xl">{L(coffret.name)}</h2>
+          <p className="mt-6 font-serif text-xl italic leading-8 md:text-2xl md:leading-9">{L(coffret.description)}</p>
           <p className="mt-5 leading-8 text-muted-foreground">{L(coffret.story)}</p>
           <p className="mt-6 text-sm text-muted-foreground">{L(coffret.materials)}</p>
           <div className="mt-9 flex flex-wrap items-center gap-6">
@@ -179,7 +209,7 @@ export function CoffretFeature() {
                 {t("au lieu de", "بدلًا من")} <s>{formatPrice(value, lang)}</s> {t("séparément", "عند الشراء منفصلة")}
               </span>
             )}
-            <Button asChild variant="luxury">
+            <Button asChild variant="luxury" className="w-full sm:w-auto">
               <Link to="/creations/$slug" params={{ slug: coffret.slug }}>
                 {t("Découvrir le coffret", "اكتشف العلبة")} <ArrowRight />
               </Link>

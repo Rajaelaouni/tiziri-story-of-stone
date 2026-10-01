@@ -6,7 +6,7 @@ import backheroMobile from "@/assets/backhero-mobile.jpg";
 import ourika from "@/assets/ourika-landscape.jpg";
 import atelier from "@/assets/atelier-hands.jpg";
 import portrait from "@/assets/ahmed-portrait.jpg";
-import { ProductStories, CoffretFeature, SurMesureFeature, Reveal, Eyebrow } from "@/components/Editorial";
+import { ProductStories, ProductRail, CoffretFeature, SurMesureFeature, Reveal, Eyebrow } from "@/components/Editorial";
 import { Motif } from "@/components/Motif";
 import { BrandMark } from "@/components/Brand";
 import { Button } from "@/components/ui/button";
@@ -79,7 +79,7 @@ function Home() {
             Paysage : voile latéral, la pièce reste dégagée à droite. */}
         <div className="absolute inset-0 bg-gradient-to-b from-ink/85 via-ink/45 to-ink/65 md:bg-gradient-to-r md:from-ink/75 md:via-ink/25 md:to-transparent md:rtl:bg-gradient-to-l" />
         {/* Portrait : le texte se pose sur le ciel et laisse la pièce visible en bas. */}
-        <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1500px] items-start px-6 pt-28 md:items-center md:pt-24 lg:px-16">
+        <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-[1500px] items-start px-6 pt-24 md:items-center md:pt-24 lg:px-16">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -87,33 +87,39 @@ function Home() {
             className="max-w-3xl"
           >
             <Eyebrow className="text-sand">{t("Maison de création — Ourika, Maroc", "دار إبداع — أوريكا، المغرب")}</Eyebrow>
-            <h1 className="mt-6 font-serif text-[clamp(3rem,6vw,6.8rem)] leading-[.9]">
+            <h1 className="mt-5 font-serif text-[clamp(2.7rem,6vw,6.8rem)] leading-[.95] md:mt-6 md:leading-[.9]">
               {t("La nature a créé", "الطبيعة صنعت")}
               <br />
               {t("la matière.", "المادة.")}
               <br />
               <em>
-                {t("Ahmed Tiziri lui a donné", "وأحمد تيزيري")}
-                <br />
+                {t("Ahmed Tiziri lui a donné", "وأحمد تيزيري")}{" "}
+                <br className="hidden md:inline" />
                 {t("une histoire.", "منحها حكاية.")}
               </em>
             </h1>
-            <p className="mt-8 max-w-md leading-7 opacity-90">
+            <p className="mt-6 max-w-md leading-7 opacity-90 md:mt-8">
               {t(
                 "Des bracelets en pierres et nacre, façonnés à la main au pied de l’Atlas. Chaque pièce porte une lumière de la vallée.",
                 "أساور من الأحجار والصدف، مصنوعة يدويًا عند سفح الأطلس. كل قطعة تحمل نورًا من الوادي.",
               )}
             </p>
-            <div className="mt-9 flex flex-wrap items-center gap-6">
-              <Button asChild variant="ivory" size="lg">
+            <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-5 md:mt-9 md:gap-6">
+              {/* Téléphone : une seule porte d'entrée, le récit. Il mène à la création, puis à sa fiche. */}
+              <Button asChild variant="ivory" size="lg" className="w-full md:hidden">
+                <Link to="/histoire" search={{ c: 1 }}>
+                  {t("Vivre l’histoire", "عِش الحكاية")} <ArrowRight />
+                </Link>
+              </Button>
+              <Button asChild variant="ivory" size="lg" className="hidden md:inline-flex">
                 <Link to="/creations">
                   {t("Découvrir les créations", "اكتشف الإبداعات")} <ArrowRight />
                 </Link>
               </Button>
-              <Link to="/histoire" className="text-link">
+              <Link to="/histoire" className="text-link hidden md:inline-flex">
                 {t("Vivre l’histoire", "عِش الحكاية")} <ArrowRight />
               </Link>
-              <Link to="/ahmed-tiziri" className="text-link">
+              <Link to="/ahmed-tiziri" className="text-link hidden md:inline-flex">
                 {t("Rencontrer le créateur", "تعرّف على المبدع")} <ArrowRight />
               </Link>
             </div>
@@ -123,7 +129,7 @@ function Home() {
             <br />
             {L(brand.slogan[1])}
           </p>
-          <div className="absolute bottom-8 start-6 flex items-center gap-3 text-[.6rem] uppercase tracking-[.18em] lg:start-16 rtl:text-xs">
+          <div className="absolute bottom-24 start-6 hidden items-center md:flex gap-3 text-[.6rem] uppercase tracking-[.18em] lg:bottom-8 lg:start-16 rtl:text-xs">
             <ArrowDown className="size-4 animate-bounce" />
             {t("Défiler pour explorer", "مرّر للاستكشاف")}
           </div>
@@ -131,14 +137,14 @@ function Home() {
       </section>
 
       {/* 2. CURIOSITÉ — le manifeste */}
-      <section className="px-6 py-28 md:py-40">
+      <section className="px-6 py-20 md:py-40">
         <Reveal className="mx-auto max-w-4xl text-center">
           <BrandMark className="mx-auto h-14 w-14 text-clay" />
           <p className="mt-8 eyebrow">{t("Tiziri", "تيزيري")}</p>
           <h2 className="mt-6 font-serif text-4xl leading-tight md:text-6xl">
             <em>{L(brand.meaning)}</em>
           </h2>
-          <p className="mx-auto mt-8 max-w-2xl text-lg leading-9 text-muted-foreground">
+          <p className="mx-auto mt-8 max-w-2xl leading-8 text-muted-foreground md:text-lg md:leading-9">
             {t(
               "Cette lumière douce qui révèle les reliefs sans les brûler. C’est ce que nous cherchons dans chaque matière : une couleur qui ne crie pas, une texture qui raconte, un éclat qui accompagne.",
               "ذلك النور الهادئ الذي يكشف التضاريس دون أن يحرقها. هذا ما نبحث عنه في كل مادة: لون لا يصرخ، وملمس يحكي، وبريق يرافق.",
@@ -146,22 +152,23 @@ function Home() {
           </p>
           <Motif className="mt-14 text-clay" />
         </Reveal>
-        <div className="mx-auto mt-20 grid max-w-6xl gap-px bg-border md:grid-cols-3">
+        {/* Téléphone : les trois valeurs se feuillettent ; grand écran : trois colonnes. */}
+        <Reveal className="rail -mx-6 mt-14 scroll-px-6 gap-3 px-6 md:mx-auto md:mt-20 md:grid md:max-w-6xl md:grid-cols-3 md:gap-px md:overflow-visible md:bg-border md:px-0">
           {brand.values.map((v, i) => (
-            <Reveal key={v.title.fr} className="bg-background p-8 md:p-10">
+            <div key={v.title.fr} className="w-[76vw] border border-border bg-card p-7 md:w-auto md:border-0 md:bg-background md:p-10">
               <p className="section-number">{String(i + 1).padStart(2, "0")}</p>
               <h3 className="mt-4 font-serif text-3xl">{L(v.title)}</h3>
               <p className="mt-4 leading-7 text-muted-foreground">{L(v.text)}</p>
-            </Reveal>
+            </div>
           ))}
-        </div>
+        </Reveal>
       </section>
 
       {/* 3. HISTOIRE — les créations */}
-      <section className="border-t border-border px-6 py-24 md:py-36">
+      <section className="border-t border-border px-6 py-20 md:py-36">
         <Reveal className="mx-auto max-w-5xl text-center">
           <Eyebrow className="text-clay">{t("Les créations", "الإبداعات")}</Eyebrow>
-          <h2 className="display-title mt-6 text-5xl md:text-8xl">
+          <h2 className="display-title mt-6 text-[2.6rem] md:text-8xl">
             {t("Une histoire derrière", "خلف كل إبداع")}
             <br />
             {t("chaque création", "حكاية")}
@@ -174,14 +181,22 @@ function Home() {
           </p>
         </Reveal>
         <div className="mx-auto mt-12 max-w-7xl">
-          <ProductStories />
+          <ProductRail />
+          <div className="hidden md:block">
+            <ProductStories />
+          </div>
+          <Button asChild variant="luxury" className="mt-10 w-full md:hidden">
+            <Link to="/creations">
+              {t("Voir toutes les créations", "عرض كل الإبداعات")} <ArrowRight />
+            </Link>
+          </Button>
         </div>
       </section>
 
       {/* 4. CRÉATION — le geste */}
       <section className="bg-ink text-hero-foreground">
         <div className="mx-auto grid max-w-[1500px] md:grid-cols-2">
-          <div className="relative min-h-[60svh] overflow-hidden">
+          <div className="relative min-h-[46svh] overflow-hidden md:min-h-[60svh]">
             <img
               src={atelier}
               alt={t("Mains d’artisan choisissant des pierres sur l’établi", "يدا حرفي تختاران الأحجار على طاولة العمل")}
@@ -189,11 +204,11 @@ function Home() {
               className="absolute inset-0 h-full w-full object-cover"
             />
           </div>
-          <div className="flex items-center px-6 py-20 md:px-16">
+          <div className="flex items-center px-6 py-16 md:px-16 md:py-20">
             <Reveal>
               <Eyebrow className="text-sand">{t("L’atelier", "الورشة")}</Eyebrow>
               <h2 className="display-title mt-5 text-5xl md:text-7xl">{t("Le temps du geste", "زمن اللمسة")}</h2>
-              <p className="mt-6 max-w-md font-serif text-2xl italic leading-9 opacity-90">
+              <p className="mt-6 max-w-md font-serif text-xl italic leading-8 opacity-90 md:text-2xl md:leading-9">
                 {t(
                   "Ici, rien n’est produit en série. Un bracelet se compose comme on écrit une phrase : lentement.",
                   "هنا، لا شيء يُنتَج بالجملة. يُصاغ السوار كما تُكتب الجملة: على مهل.",
@@ -232,7 +247,7 @@ function Home() {
         <Reveal className="relative z-10 mx-auto flex min-h-[80svh] max-w-7xl flex-col items-center justify-center px-6 text-center">
           <Eyebrow>{t("La source", "المنبع")}</Eyebrow>
           <h2 className="display-title mt-5 text-6xl md:text-9xl">{t("Ourika", "أوريكا")}</h2>
-          <p className="mt-5 max-w-xl font-serif text-3xl italic">
+          <p className="mt-5 max-w-xl font-serif text-2xl italic md:text-3xl">
             {t(
               "La pierre, l’eau, la terre, la lumière. Tout ce que nous portons vient d’ici.",
               "الحجر، الماء، الأرض، النور. كل ما نرتديه يأتي من هنا.",
@@ -249,8 +264,8 @@ function Home() {
       <SurMesureFeature />
 
       {/* 7. ACHAT — la confiance : le créateur */}
-      <section className="px-6 py-24 md:py-36">
-        <Reveal className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-[.8fr_1.2fr] md:gap-20">
+      <section className="px-6 py-16 md:py-36">
+        <Reveal className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-[.8fr_1.2fr] md:gap-20">
           <img
             src={portrait}
             alt={t("Ahmed Tiziri à l’établi", "أحمد تيزيري على طاولة العمل")}
@@ -259,7 +274,7 @@ function Home() {
           />
           <div>
             <Eyebrow className="text-clay">{t("Le créateur", "المبدع")}</Eyebrow>
-            <blockquote className="mt-6 font-serif text-4xl leading-tight md:text-5xl">
+            <blockquote className="mt-6 font-serif text-3xl leading-tight md:text-5xl">
               <em>{t("« Et si l’on pouvait porter un morceau de nature ? »", "«ماذا لو استطعنا أن نرتدي قطعة من الطبيعة؟»")}</em>
             </blockquote>
             <p className="mt-6 eyebrow">— {t("Ahmed Tiziri", "أحمد تيزيري")}</p>
@@ -270,7 +285,7 @@ function Home() {
               )}
             </p>
             <div className="mt-10 flex flex-wrap items-center gap-6">
-              <Button asChild variant="luxury">
+              <Button asChild variant="luxury" className="w-full sm:w-auto">
                 <Link to="/ahmed-tiziri">
                   {t("Son histoire", "حكايته")} <ArrowRight />
                 </Link>

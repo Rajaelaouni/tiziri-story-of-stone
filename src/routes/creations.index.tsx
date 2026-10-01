@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { ProductStories, CoffretFeature, SurMesureFeature, Reveal, Eyebrow } from "@/components/Editorial";
 import { Motif } from "@/components/Motif";
-import trio from "@/assets/bracelets-trio.webp.asset.json";
+import trio from "@/assets/promotion3bracleta399dh.png";
 import { useI18n } from "@/lib/i18n";
 
 export const Route = createFileRoute("/creations/")({
@@ -26,7 +26,7 @@ function Page() {
   const { t } = useI18n();
   return (
     <>
-      <section className="grid min-h-[72svh] items-end gap-10 px-6 pb-16 pt-36 md:grid-cols-[.8fr_1.2fr] md:px-14">
+      <section className="grid min-h-[72svh] items-end gap-8 px-6 pb-12 pt-24 md:gap-10 md:pb-16 md:pt-36 md:grid-cols-[.8fr_1.2fr] md:px-14">
         <Reveal>
           <Eyebrow className="text-clay">{t("Collection", "المجموعة")}</Eyebrow>
           <h1 className="display-title mt-6 text-6xl md:text-9xl">
@@ -34,19 +34,19 @@ function Page() {
             <br />
             {t("Créations", "")}
           </h1>
-          <p className="mt-8 max-w-md leading-8">
+          <p className="mt-6 max-w-md leading-8 md:mt-8">
             {t(
               "Des matières choisies dans l’esprit de la nature. Des créations imaginées à Ourika, chacune née d’un élément de la vallée : la pierre, l’eau, la terre ou la lumière.",
               "موادّ مختارة بروح الطبيعة. إبداعات تخيّلناها في أوريكا، وُلد كلٌّ منها من عنصر من عناصر الوادي: الحجر، أو الماء، أو الأرض، أو النور.",
             )}
           </p>
         </Reveal>
-        <img src={trio.url} alt={t("Créations artisanales Tiziri", "إبداعات تيزيري الحرفية")} className="aspect-[4/3] w-full object-cover" />
+        <img src={trio} alt={t("Créations artisanales Tiziri", "إبداعات تيزيري الحرفية")} className="aspect-[4/3] w-full object-cover" />
       </section>
-      <section className="border-t border-border px-6 py-24">
+      <section className="border-t border-border px-6 py-16 md:py-24">
         <div className="mx-auto max-w-7xl">
           <Reveal className="text-center">
-            <h2 className="font-serif text-4xl italic md:text-6xl">{t("Chaque matière raconte quelque chose.", "كل مادة تحكي شيئًا.")}</h2>
+            <h2 className="font-serif text-3xl italic md:text-6xl">{t("Chaque matière raconte quelque chose.", "كل مادة تحكي شيئًا.")}</h2>
             <Motif className="mt-10 text-clay" />
           </Reveal>
           <ProductStories />

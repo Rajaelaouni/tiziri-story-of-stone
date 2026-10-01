@@ -175,6 +175,8 @@
 @utility text-link { display:inline-flex; align-items:center; gap:.6rem; font-size:.65rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; & svg { width:1rem; transition:transform .4s; } &:hover svg { transform:translateX(.3rem); } }
 @utility page-hero { position:relative; min-height:78svh; display:flex; align-items:flex-end; overflow:hidden; color:var(--hero-foreground); }
 @utility section-number { font-family: var(--font-serif); font-style: italic; font-size: 1rem; color: var(--clay); }
+/* Rail horizontal (téléphone) : défile au doigt, s'aimante sur chaque carte, sans barre visible. */
+@utility rail { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch; overscroll-behavior-x:contain; & > * { scroll-snap-align:start; flex-shrink:0; } &::-webkit-scrollbar { display:none; } }
 @utility field-label { display:block; font-size:.62rem; font-weight:600; letter-spacing:.14em; text-transform:uppercase; }
 
 /* Arabe (droite à gauche) : polices dédiées, pas d'espacement de lettres (il casse la liaison

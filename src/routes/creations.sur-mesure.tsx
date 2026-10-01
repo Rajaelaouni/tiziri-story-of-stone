@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Check, ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 import { Button } from "@/components/ui/button";
@@ -62,6 +62,16 @@ function Page() {
   const perle = findPerle(config.perle);
   const price = priceOf(config);
 
+  // Sur mobile, l'aperçu défile hors de l'écran : un bandeau prend le relais.
+  const previewRef = useRef<HTMLDivElement>(null);
+  const [compact, setCompact] = useState(false);
+  useEffect(() => {
+    const follow = () => setCompact((previewRef.current?.getBoundingClientRect().bottom ?? 1) < 88);
+    follow();
+    addEventListener("scroll", follow, { passive: true });
+    return () => removeEventListener("scroll", follow);
+  }, []);
+
   const update = (patch: Partial<BraceletConfig>) => {
     setAdded(false);
     setConfig((c) => ({ ...c, ...patch }));
@@ -118,7 +128,7 @@ function Page() {
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
           {/* Aperçu */}
           <div className="self-start lg:sticky lg:top-28">
-            <div className="bg-sand/40 p-6 md:p-10">
+            <div ref={previewRef} className="bg-sand/40 p-6 md:p-10">
               <BraceletPreview config={config} className="mx-auto w-full max-w-md" />
             </div>
             <div className="mt-6">
@@ -306,10 +316,43 @@ function Page() {
                 className="font-serif text-xl italic"
               />
               <p className="mt-2 text-end text-xs text-muted-foreground">{config.note.length}/160</p>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {[
+                  t("Pour maman", "لأمي"),
+                  t("Mon voyage au Maroc", "رحلتي إلى المغرب"),
+                  t("Notre histoire", "حكايتنا"),
+                  t("En souvenir d’Ourika", "ذكرى من أوريكا"),
+                ].map((suggestion) => (
+                  <button
+                    key={suggestion}
+                    type="button"
+                    aria-pressed={config.note === suggestion}
+                    onClick={() => update({ note: suggestion })}
+                    className={`border px-3 py-1.5 text-xs transition-colors duration-300 ${config.note === suggestion ? "border-foreground bg-card" : "border-border text-muted-foreground hover:border-foreground/40 hover:text-foreground"}`}
+                  >
+                    {suggestion}
+                  </button>
+                ))}
+              </div>
             </Step>
           </div>
         </div>
       </section>
+
+      {/* Aperçu en direct : prend le relais quand le grand aperçu a défilé (mobile). */}
+      <div
+        aria-hidden={!compact}
+        className={`fixed inset-x-0 top-16 z-30 border-b border-border bg-background/95 backdrop-blur-md transition-all duration-500 lg:hidden ${compact ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-full opacity-0"}`}
+      >
+        <div className="mx-auto flex max-w-2xl items-center gap-4 px-6 py-2.5">
+          <BraceletPreview config={config} className="size-14 shrink-0" />
+          <div className="min-w-0 flex-1">
+            <p className="eyebrow text-clay">{t("Aperçu en direct", "معاينة مباشرة")}</p>
+            <p className="truncate text-xs text-muted-foreground">{describe(config, lang)}</p>
+          </div>
+          <span className="font-serif text-xl">{formatPrice(price, lang)}</span>
+        </div>
+      </div>
 
       {/* Barre d'achat mobile */}
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 p-4 backdrop-blur-md lg:hidden">

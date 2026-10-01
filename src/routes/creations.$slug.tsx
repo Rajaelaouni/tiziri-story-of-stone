@@ -1,5 +1,5 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, Check, Minus, Plus, ShoppingBag } from "lucide-react";
 import { products, creations, elementLabels, separateValue } from "@/data.products";
 import { useCart } from "@/context/CartContext";
@@ -52,6 +52,16 @@ function Page() {
     t("Essuyez-le délicatement avec un chiffon doux et sec.", "امسحه برفق بقطعة قماش ناعمة وجافة."),
   ];
 
+  // Téléphone : quand le bouton d'achat a défilé hors de l'écran, une barre prend le relais en bas.
+  const buyRef = useRef<HTMLDivElement>(null);
+  const [sticky, setSticky] = useState(false);
+  useEffect(() => {
+    const follow = () => setSticky((buyRef.current?.getBoundingClientRect().bottom ?? 1) < 64);
+    follow();
+    addEventListener("scroll", follow, { passive: true });
+    return () => removeEventListener("scroll", follow);
+  }, []);
+
   const adopt = () => {
     add(p.id, q);
     setAdded(true);
@@ -60,10 +70,10 @@ function Page() {
 
   return (
     <>
-      <section className="grid min-h-screen gap-10 px-6 pb-20 pt-32 lg:grid-cols-[1.1fr_.9fr] lg:gap-16 lg:px-14">
-        <div className={`grid gap-3 ${p.images.length > 1 ? "sm:grid-cols-[5rem_1fr]" : ""}`}>
+      <section className="grid min-h-screen gap-8 px-6 pb-16 pt-16 md:gap-10 md:pb-20 md:pt-32 lg:grid-cols-[1.1fr_.9fr] lg:gap-16 lg:px-14">
+        <div className={`-mx-6 grid gap-3 md:mx-0 ${p.images.length > 1 ? "sm:grid-cols-[5rem_1fr]" : ""}`}>
           {p.images.length > 1 && (
-            <div className="order-2 flex gap-3 sm:order-1 sm:flex-col">
+            <div className="order-2 flex gap-3 px-6 sm:order-1 sm:flex-col md:px-0">
               {p.images.map((src, i) => (
                 <button
                   key={src}
@@ -85,7 +95,7 @@ function Page() {
             <Eyebrow className="text-clay">
               {p.kind === "coffret" ? t("Le coffret", "العلبة") : `${t("Création", "إبداع")} · ${L(elementLabels[p.element])}`}
             </Eyebrow>
-            <h1 className="display-title mt-5 text-5xl lg:text-7xl">{L(p.name)}</h1>
+            <h1 className="display-title mt-4 text-[2.6rem] md:mt-5 md:text-5xl lg:text-7xl">{L(p.name)}</h1>
             <p className="mt-5 font-serif text-3xl">
               {formatPrice(p.price, lang)}
               {value > p.price && (
@@ -94,9 +104,9 @@ function Page() {
                 </span>
               )}
             </p>
-            <p className="mt-7 font-serif text-2xl italic leading-9">{L(p.description)}</p>
+            <p className="mt-6 font-serif text-xl italic leading-8 md:mt-7 md:text-2xl md:leading-9">{L(p.description)}</p>
 
-            <div className="mt-9 flex gap-4">
+            <div ref={buyRef} className="mt-8 flex gap-3 md:mt-9 md:gap-4">
               <div className="grid grid-cols-3 border border-border">
                 <button className="icon-button" onClick={() => setQ(Math.max(1, q - 1))} aria-label={t("Réduire la quantité", "إنقاص الكمية")}>
                   <Minus />
@@ -164,11 +174,11 @@ function Page() {
         </div>
       </section>
 
-      <section className="border-t border-border px-6 py-24 md:py-32">
+      <section className="border-t border-border px-6 py-16 md:py-32">
         <div className="mx-auto max-w-7xl">
           <Reveal className="mx-auto max-w-3xl text-center">
             <Eyebrow className="text-clay">{t("Le récit", "الحكاية")}</Eyebrow>
-            <blockquote className="display-title mt-6 text-4xl italic md:text-6xl">{L(p.narrative.quote)}</blockquote>
+            <blockquote className="display-title mt-6 text-3xl italic md:text-6xl">{L(p.narrative.quote)}</blockquote>
             <Motif className="mt-8 text-clay" />
           </Reveal>
           <Reveal className="mx-auto mt-14 max-w-2xl">
@@ -178,7 +188,7 @@ function Page() {
               <p className="mt-3 leading-8 text-muted-foreground">{L(p.narrative.naming)}</p>
             </div>
           </Reveal>
-          <div className="mt-20 grid gap-12 border-t border-border pt-16 md:grid-cols-2 md:gap-x-20 md:gap-y-16">
+          <div className="mt-14 grid gap-10 border-t border-border pt-12 md:mt-20 md:gap-12 md:pt-16 md:grid-cols-2 md:gap-x-20 md:gap-y-16">
             {p.narrative.chapters.map((c, i) => (
               <Reveal key={c.title.fr}>
                 <p className="section-number">{String(i + 1).padStart(2, "0")}</p>
@@ -187,7 +197,7 @@ function Page() {
               </Reveal>
             ))}
           </div>
-          <Reveal className="mt-20 grid gap-12 border-t border-border pt-14 md:grid-cols-2 md:gap-20">
+          <Reveal className="mt-14 grid gap-12 border-t border-border pt-12 md:mt-20 md:pt-14 md:grid-cols-2 md:gap-20">
             <div>
               <Eyebrow>{t("À regarder de près", "تأمّل عن قرب")}</Eyebrow>
               <ul className="mt-6 grid gap-4">
@@ -207,27 +217,51 @@ function Page() {
         </div>
       </section>
 
-      <section className="relative min-h-[75svh] text-hero-foreground">
+      <section className="relative min-h-[60svh] text-hero-foreground md:min-h-[75svh]">
         <img src={ourika} alt={t("Paysage naturel d’Ourika", "منظر طبيعي من أوريكا")} loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
         <div className="absolute inset-0 bg-ink/45" />
-        <Reveal className="relative z-10 flex min-h-[75svh] flex-col items-center justify-center px-6 text-center">
+        <Reveal className="relative z-10 flex min-h-[60svh] flex-col md:min-h-[75svh] items-center justify-center px-6 text-center">
           <Eyebrow>{t("Tiziri", "تيزيري")}</Eyebrow>
-          <h2 className="display-title mt-5 text-6xl md:text-9xl">{t("Porter cette histoire", "ارتدِ هذه الحكاية")}</h2>
+          <h2 className="display-title mt-5 text-5xl md:text-9xl">{t("Porter cette histoire", "ارتدِ هذه الحكاية")}</h2>
           <p className="mt-7 font-serif text-2xl italic">{t("Une matière. Une inspiration. Une création.", "مادة. إلهام. إبداع.")}</p>
         </Reveal>
       </section>
 
+      {/* Barre d'achat mobile */}
+      <div
+        aria-hidden={!sticky}
+        className={`fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 px-4 pb-[calc(.75rem+env(safe-area-inset-bottom))] pt-3 backdrop-blur-md transition-all duration-500 lg:hidden ${sticky ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-full opacity-0"}`}
+      >
+        <div className="flex items-center gap-4">
+          <div className="min-w-0 flex-1">
+            <p className="truncate font-serif text-lg leading-tight">{L(p.name)}</p>
+            <p className="text-sm text-muted-foreground">{formatPrice(p.price * q, lang)}</p>
+          </div>
+          {added ? (
+            <Button asChild variant="luxury" tabIndex={sticky ? 0 : -1}>
+              <Link to="/panier">
+                <Check /> {t("Voir la sélection", "عرض الاختيارات")}
+              </Link>
+            </Button>
+          ) : (
+            <Button variant="luxury" onClick={adopt} tabIndex={sticky ? 0 : -1}>
+              <ShoppingBag /> {t("Adopter", "اقتنِ")}
+            </Button>
+          )}
+        </div>
+      </div>
+
       {others.length > 0 && (
-        <section className="px-6 py-24 md:py-32">
+        <section className="px-6 pb-28 pt-16 md:py-32">
           <div className="mx-auto max-w-7xl">
             <Reveal className="text-center">
               <Eyebrow className="text-clay">{t("Poursuivre l’histoire", "تابع الحكاية")}</Eyebrow>
-              <h2 className="display-title mt-5 text-4xl md:text-6xl">{t("D’autres lumières de la vallée", "أنوار أخرى من الوادي")}</h2>
+              <h2 className="display-title mt-5 text-3xl md:text-6xl">{t("D’autres lumières de la vallée", "أنوار أخرى من الوادي")}</h2>
               <Motif className="mt-8 text-clay" />
             </Reveal>
-            <div className="mt-16 grid gap-10 md:grid-cols-3">
+            <Reveal className="rail -mx-6 mt-12 scroll-px-6 gap-4 px-6 md:mx-0 md:mt-16 md:grid md:grid-cols-3 md:gap-10 md:overflow-visible md:px-0">
               {others.map((o) => (
-                <Reveal key={o.id}>
+                <div key={o.id} className="w-[68vw] md:w-auto">
                   <Link to="/creations/$slug" params={{ slug: o.slug }} className="group block">
                     <div className="overflow-hidden bg-sand/40">
                       <img
@@ -241,9 +275,9 @@ function Page() {
                     <h3 className="mt-2 font-serif text-2xl">{L(o.name)}</h3>
                     <p className="mt-1 text-sm text-muted-foreground">{formatPrice(o.price, lang)}</p>
                   </Link>
-                </Reveal>
+                </div>
               ))}
-            </div>
+            </Reveal>
           </div>
         </section>
       )}

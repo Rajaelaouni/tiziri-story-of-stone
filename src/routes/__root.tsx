@@ -12,7 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { CartProvider } from "@/context/CartContext";
-import { Header, Footer } from "@/components/SiteChrome";
+import { Header, Footer, MobileTabBar } from "@/components/SiteChrome";
 import { Button } from "@/components/ui/button";
 import { I18nProvider, useI18n } from "@/lib/i18n";
 
@@ -76,7 +76,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, viewport-fit=cover" },
       { name: "author", content: "TIZIRI" },
       { name: "theme-color", content: "#2B241D" },
       { property: "og:site_name", content: "TIZIRI — Créations d’Ahmed Tiziri" },
@@ -119,6 +119,6 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
-    <QueryClientProvider client={queryClient}><I18nProvider><CartProvider><Header/><main><Outlet /></main><Footer/></CartProvider></I18nProvider></QueryClientProvider>
+    <QueryClientProvider client={queryClient}><I18nProvider><CartProvider><Header/><main><Outlet /></main><Footer/><MobileTabBar/></CartProvider></I18nProvider></QueryClientProvider>
   );
 }
